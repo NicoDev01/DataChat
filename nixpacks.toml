@@ -4,7 +4,7 @@ nixPkgs = ["nodejs_20", "python311"]
 [phases.install]
 cmds = [
   "cd frontend && npm install",
-  "cd backend && pip install fastapi uvicorn python-dotenv pandas openpyxl google-genai aiofiles"
+  "cd backend && pip3 install fastapi uvicorn python-dotenv pandas openpyxl google-genai aiofiles"
 ]
 
 [phases.build]
