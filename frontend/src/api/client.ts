@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { UploadResponse, QueryResponse } from "../types";
 
-const BASE = "http://localhost:8090/api";
+const BASE = "/api";
 
 export const api = {
   upload: async (file: File): Promise<UploadResponse> => {
