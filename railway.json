@@ -1,10 +1,10 @@
 {
   "$schema": "https://schema.railway.app/railway.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "bash -c 'cd /app/backend && python3 -m uvicorn main:app --host 0.0.0.0 --port $PORT'",
     "healthcheckPath": "/",
     "restartPolicyType": "ON_FAILURE"
   }

@@ -24,7 +24,7 @@ app.include_router(upload_router)
 app.include_router(query_router)
 
 # Serve frontend build if it exists (production)
-_dist = Path(__file__).parent.parent / "frontend" / "dist"
+_dist = Path(os.environ.get("FRONTEND_DIST", str(Path(__file__).parent.parent / "frontend" / "dist")))
 if _dist.exists():
     app.mount("/assets", StaticFiles(directory=str(_dist / "assets")), name="assets")
 
