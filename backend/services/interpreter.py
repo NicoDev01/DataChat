@@ -9,12 +9,17 @@ from google.genai import types
 
 from config import GEMINI_PRO_MODEL, MAX_ROWS_FOR_INTERPRETATION
 
-def _get_client():
-    import os
-    key = os.environ.get("GEMINI_API_KEY", "")
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY environment variable is not set")
-    return genai.Client(api_key=key)
+_client: genai.Client | None = None
+
+def _get_client() -> genai.Client:
+    global _client
+    if _client is None:
+        import os
+        key = os.environ.get("GEMINI_API_KEY", "")
+        if not key:
+            raise RuntimeError("GEMINI_API_KEY environment variable is not set")
+        _client = genai.Client(api_key=key)
+    return _client
 
 
 def _rows_to_text(columns: list[str], rows: list[list], max_rows: int = MAX_ROWS_FOR_INTERPRETATION) -> str:
