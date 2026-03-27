@@ -7,9 +7,12 @@ import sqlite3
 
 from google import genai
 
-from config import GEMINI_API_KEY, GEMINI_FLASH_MODEL
+from config import GEMINI_FLASH_MODEL
 
-_client = genai.Client(api_key=GEMINI_API_KEY)
+def _get_client():
+    import os
+    key = os.environ.get("GEMINI_API_KEY", "")
+    return genai.Client(api_key=key)
 
 
 # ---------------------------------------------------------------------------
@@ -162,7 +165,7 @@ def _extract_sql(text: str) -> str:
 
 def _call_gemini(system_prompt: str, user_prompt: str) -> str:
     from google.genai import types
-    response = _client.models.generate_content(
+    response = _get_client().models.generate_content(
         model=GEMINI_FLASH_MODEL,
         contents=user_prompt,
         config=types.GenerateContentConfig(system_instruction=system_prompt),

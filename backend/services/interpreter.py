@@ -7,9 +7,12 @@ import re
 from google import genai
 from google.genai import types
 
-from config import GEMINI_API_KEY, GEMINI_PRO_MODEL, MAX_ROWS_FOR_INTERPRETATION
+from config import GEMINI_PRO_MODEL, MAX_ROWS_FOR_INTERPRETATION
 
-_client = genai.Client(api_key=GEMINI_API_KEY)
+def _get_client():
+    import os
+    key = os.environ.get("GEMINI_API_KEY", "")
+    return genai.Client(api_key=key)
 
 
 def _rows_to_text(columns: list[str], rows: list[list], max_rows: int = MAX_ROWS_FOR_INTERPRETATION) -> str:
@@ -118,7 +121,7 @@ def interpret(
             "Formuliere die Antwort und ergänze einen Hinweis, dass dies auf ein Datenproblem hindeuten könnte.\n"
             "Antworte auf Deutsch, 1-3 Sätze, direkt zur Sache."
         )
-        response = _client.models.generate_content(
+        response = _get_client().models.generate_content(
             model=GEMINI_PRO_MODEL,
             contents=f"Kontext: {empty_hint}\n\nFrage: {question}\n\nSQL:\n{sql}\n\nDas Ergebnis hat 0 Zeilen.",
             config=types.GenerateContentConfig(system_instruction=system_prompt_empty),
