@@ -178,7 +178,7 @@ def interpret(
         f"Beantworte die Frage ausschließlich anhand der obigen Ergebnisse."
     )
 
-    response = _client.models.generate_content(
+    response = _get_client().models.generate_content(
         model=GEMINI_PRO_MODEL,
         contents=user_prompt,
         config=types.GenerateContentConfig(system_instruction=system_prompt),
