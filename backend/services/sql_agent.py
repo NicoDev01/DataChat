@@ -12,6 +12,8 @@ from config import GEMINI_FLASH_MODEL
 def _get_client():
     import os
     key = os.environ.get("GEMINI_API_KEY", "")
+    if not key:
+        raise RuntimeError("GEMINI_API_KEY environment variable is not set")
     return genai.Client(api_key=key)
 
 

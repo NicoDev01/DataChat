@@ -23,6 +23,18 @@ app.add_middleware(
 app.include_router(upload_router)
 app.include_router(query_router)
 
+
+@app.get("/api/debug-env")
+def debug_env():
+    import os
+    key = os.environ.get("GEMINI_API_KEY", "")
+    return {
+        "GEMINI_API_KEY_set": bool(key),
+        "GEMINI_API_KEY_length": len(key),
+        "GEMINI_PRO_MODEL": os.environ.get("GEMINI_PRO_MODEL", "NOT SET"),
+        "GEMINI_FLASH_MODEL": os.environ.get("GEMINI_FLASH_MODEL", "NOT SET"),
+    }
+
 # Serve frontend build if it exists (production)
 _dist = Path(os.environ.get("FRONTEND_DIST", str(Path(__file__).parent.parent / "frontend" / "dist")))
 if _dist.exists():

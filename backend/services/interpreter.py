@@ -12,6 +12,8 @@ from config import GEMINI_PRO_MODEL, MAX_ROWS_FOR_INTERPRETATION
 def _get_client():
     import os
     key = os.environ.get("GEMINI_API_KEY", "")
+    if not key:
+        raise RuntimeError("GEMINI_API_KEY environment variable is not set")
     return genai.Client(api_key=key)
 
 
